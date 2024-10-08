@@ -1,0 +1,324 @@
+Layer path -
+var ref = require('/opt/nodejs/fileName.ext');
+
+sudo apt-get install -y nodejs
+sudo apt-get install npm
+
+//To update NPM
+npm install -g npm
+
+Angular -
+1. npm install -g @angular/cli
+
+2. ng -v
+
+3. ng new appName
+
+4. ng serve --open
+
+5. ng g c componentFolder/componentName (creates - html, css, ts and test files)
+
+6. ng g s serviceName
+
+------------------------------------------------------------------------------------------
+
+angular.json -> can be used for global css and js files
+
+app/index.html/app.module.ts -> entry point to angular App
+new componets need to be added here, 
+cli automatically adds modules are added under imports array
+
+@NgModule({
+  declarations: [
+    //Components declared here
+    //Angular CLI automatically adds generated components here
+  ],
+  imports: [
+    //Angular Modules/Libs go here
+  ],
+  providers: [],
+  bootstrap: [AppComponent//Main App component]
+})
+
+@Component has
+1. selector - for custom html tag
+2. templateUrl - for specifying which html content is to be loaded for the coponent
+3. styleUrls - for specifying css file for the particular component
+4. class - variables under this class, can be used under {{}} in the html
+
+class SomeComponent implements OnInit {
+
+	//Used to import services
+	constructor(){
+	
+	}
+
+	functionName(name: String):void {
+		this.name = name;
+	}
+}
+
+------------------------------------------------------------------------------------------
+
+React 
+- component-based approach and helps in building reusable UI components
+- DOM is “Document Object Model”. 
+  It’s the browsers’ programming interface for HTML (and XML) documents that treats them as tree structures. 
+  The DOM API can be used to change a document structure, style, and content.
+- Uses virtual DOM instead of the real DOM
+- States are the source of data for React components. 
+  In other words, they are objects responsible for determining components behavior and rendering.
+- Each component must have a render() function. It returns a single React element
+- JSX stands for JavaScript XML, allows us to write HTML in React, makes it easier to write and add HTML in React
+- the class keyword is a reserved word in JavaScript, JSX solved this by using className
+
+A virtual DOM is a lightweight JS object. It is simply a copy of the real DOM. 
+A virtual DOM is a node tree that lists various elements, their attributes, and content as objects and their properties.
+Real DOM supports a very expensive DOM manipulation
+Real DOM causes a lot of memory wastage
+Real DOM creates a new DOM when an element updates
+Real DOM updates slowly
+Real DOM can directly update HTML, while virtual DOM can’t update HTML directly.
+
+React will compare the 2 virtual versions of the tree that it has in memory, 
+compute the differences between them, figure out what sub-trees in the main tree need to be updated, 
+and only update these sub-trees in the browser.
+
+Virtual DOM operates in three simple steps:
+Step 1 – The entire UI is re-rendered in Virtual DOM representation as soon as there are some underlying data changes.
+Step 2 – Difference between the previous DOM representation and the new one is calculated.
+Step 3 – After calculations, the real DOM is updated in line with only the things that actually underwent changes.
+
+Lifecycle of Components -
+- Mounting, Updating, and Unmounting
+
+Mounting -
+Mounting means putting elements into the DOM.
+React has four built-in methods that gets called, in this order, when mounting a component:
+
+- constructor() - called before anything else, when the component is initiated, and it is the natural place to set up the initial state and other initial values
+constructor() method is called with the props, as arguments, 
+and you should always start by calling the super(props) before anything else, this will initiate the parent's constructor method and allows the component to inherit methods from its parent
+
+- getDerivedStateFromProps()
+getDerivedStateFromProps() method is called right before rendering the element(s) in the DOM.
+This is the natural place to set the state object based on the initial props.
+It takes state as an argument, and returns an object with changes to the state
+
+- render()
+
+- componentDidMount()
+The render() method is required and will always be called, the others are optional and will be called if you define them.
+-getDefaultProps()
+-getInitialState()
+-componentWillMount()
+
+Updating -
+A component is updated whenever there is a change in the component's state or props.
+React has five built-in methods that gets called, in this order, when a component is updated:
+- getDerivedStateFromProps()
+- shouldComponentUpdate() -
+you can return a Boolean value that specifies whether React should continue with the rendering or not.
+The default value is true
+- render()
+- getSnapshotBeforeUpdate()
+method you have access to the props and state before the update, 
+meaning that even after the update, you can check what the values were before the update
+- componentDidUpdate() - componentDidUpdate method is called after the component is updated in the DOM
+The render() method is required and will always be called, the others are optional
+- componentWillReceiveProps()
+- componentWillUpdate()
+
+
+Unmounting -
+The componentWillUnmount method is called when the component is about to be removed from the DOM.
+
+
+React events are written in camelCase syntax - onClick instead of onclick
+
+React hook functions can only be used in function components. You can’t use them in class components.
+Every time you define a variable in your code you will be introducing a state 
+and every time you change the value of that variable you are mutating that state.
+
+3 rules for hooks -
+- Hooks can only be called inside React function components.
+- Hooks can only be called at the top level of a component.
+- Hooks cannot be conditional
+
+useState Hook allows us to track state in a function component
+useState accepts an initial state and returns two values:
+- The current state.
+- A function that updates the state.
+function FavoriteColor() {
+  const [color, setColor] = useState("red");
+
+  return (
+    <>
+      <h1>My favorite color is {color}!</h1>
+      <button
+        type="button"
+        onClick={() => setColor("blue")}
+      >Blue</button>
+    </>
+  )
+}
+
+Props -
+children prop - A property that lets you nest components in other components  
+Changes inside component and child components are possible with props but not with state
+
+React Props are read-only! You will get an error if you try to change their value.
+Props allow for a parent component to change the value, state doesn’t
+Prop is a contraction for Properties in React. These read-only components need to be kept immutable i.e. pure. 
+Throughout the application, props are passed down from the parent components to the child components.
+To maintain the unidirectional data flow, a child component is restricted from sending a prop back to its parent component.
+
+parent component can change the value in Props but not in the state.
+inside the component, changes can be made inside the state but not in Props.
+inside the child component, changes can be made in Props but not in the case of States.
+A Stateful component stores the change in memory to React. 
+It has the authority to change state and contains vital information of past, current, and future changes.
+
+--------
+
+Synthetic Events in React are the objects in React, which acts as a cross-browser wrapper around the browser's native event. 
+The main purpose is to combine the different browsers on the API so that the event shows various properties.
+
+--------
+
+Refs stands for References to React. 
+It helps in storing a reference to a particular react element or component, 
+that can be returned by the component render configuration function.
+
+--------
+
+To optimze performance for a function component that always renders the same way - 
+Wrap it in the React.memo higher-order component.
+HOC is the Higher-Order Component. 
+It is an advanced way of reusing the component logic, which wraps another component along with it.
+several benefits of HOC, which include the following:
+
+- Reuse of Code.
+- Application of logic and bootstrap abstraction
+- Offers a high hacking facility
+- Supports state abstraction and manipulation
+- It offers props manipulation
+
+Reducers are the pure functions that clearly states as to how the application state changes when certain actions are made. 
+This way, it takes into account the previous state and action to turn out to a new state.
+
+Data with AJAX calls need to be added to the componentDidMount() lifecycle method. 
+By doing this, it is possible to use the setState() method for updating component as soon as the data is retrieved.
+
+--------
+
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = { name: 'world' };
+  }
+
+  render() {
+    return
+    Hello, !
+    ;
+  }
+}
+
+npm i npx -g
+
+npx create-react-app appName
+
+npm i react-router-dom
+npm i axios
+
+npm start
+
+public/index.html -> div id="root, "ignore but, it's the Main HTML of SPA 
+
+src/index.js -> Main JS file
+src/App.js -> contains the root App component
+
+use className instead of class attribute
+use htmlFor instead of for attribute
+
+render() -> Mandatory lifecycle method,
+It returns JSX
+Use className instead of class
+
+Components to be created under src/components folder
+File naming convention is Pascalcase
+How to use -> <ComponentName/>
+
+Data is passed to Components via props
+eg. <ComponentName todo={this.state.toShow}/>
+
+Good practice to mention PropTypes below the class for the Component
+ClassName.propTypes = {}
+
+------------------------------------------------------------------------------------------
+npm install -g @vue/cli
+vue --version
+npm install -g @vue/cli-service-global
+vue create serverless-vue
+vue add router
+npm run serve
+npm run build
+
+//SPA main file
+public > index.html 
+
+// Entry point
+src > main.js
+
+// Main Component
+src > App.vue
+contains global styling 
+
+// Routing
+src > router.js
+
+===================
+
+IP Cal -
+11111111.11111111.11111111.11111111
+0-255     0-255      0-255   0-255
+
+11111111 -> (right to left)
+2^0 - 1
+2^1 - 2
+2^2 - 4
+2^3 - 8
+2^4 - 16
+2^5 - 32
+2^6 - 64
+2^7 - 128
+1 + 2+ 4 + 8 + 16 + 32 + 64 + 128 = 255
+
+so if we need to calculate 
+11000000
+= 192
+
+
+===================
+
+nextjs
+npx create-next-app app-name --use-npm
+npm run dev
+
+-pages
+-public
+-styles
+
+instead of a tag import next/Link
+<Link href="/">
+imported css is under styles/xxx.module.css
+<style jsx>
+  {`
+    .title {
+      color: red
+    }
+  `}
+</style>
+
+local profile a

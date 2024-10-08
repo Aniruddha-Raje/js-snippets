@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Logistics Control Tower</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <style>
+      .main {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+        color: #170f4f;
+      }
+
+      .main>.left {
+        width: 15%;
+        height: 100%;
+      }
+
+      .main>.right {
+        
+        width: 85%;
+        height: 100%;
+      }
+      h2 {
+        color: #170f4f;
+        text-align: center;
+      }
+      #map {
+        width: 80%;
+        height: 83%;
+      }
+      html,
+      body {
+          height: 100%;
+          margin: 0;
+          padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="background-color:#170f4f;">
+        <img alt="logo" width="150" height="50" src="logo.png" style="background-color:white;">
+    </div>
+    <h2>
+        Logistics Control Tower
+    </h2>
+    
+    <div class="main">
+        <div class="left"> 
+          Active orders -
+          <ul>
+            <li>3463746384</li>
+            <li>9890243243</li>
+            <li>4927347343</li>
+            <li>7432798420</li>
+            <li>1938342872</li>
+            <li>2498204799</li>
+          </ul>
+        </div>
+        <div class="right" id="map"></div>
+      </div>
+
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=xxx&callback=initMap&v=weekly"
+      defer
+    ></script>
+    <script>
+        // HTML:
+        // Make sure you have an element with the id "map" to render the map.
+
+        // JavaScript:
+        function initMap() {
+          // Create a map object and specify the DOM element for display.
+          var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: -6.200000, lng: 106.816666 },
+            zoom: 12,
+            fullscreenControl: false,
+            streetViewControl: false
+          });
+
+          
+          var markers = [
+            {title: 'ARC', content: '<div><p>Lippo Mall Puri</p></div>', position: {lat:-6.188976, lng: 106.73878} ,icon: '/Users/aniruddhanarendraraje/Desktop/maps/repair.png'},
+            {title: 'ARC', content: '<div><p>Green Pramuka Square Mall</p></div>', position: {lat:-6.20719, lng: 106.87439} ,icon: '/Users/aniruddhanarendraraje/Desktop/maps/repair.png'},
+            {title: 'ARC', content: '<div><p>TM Seasons City</p></div>', position: {lat:-6.153423, lng: 106.796074} ,icon: '/Users/aniruddhanarendraraje/Desktop/maps/repair.png'},
+            {title: 'Lalamove', content: '<div><p>Order id: ITC Roxy Mas</p><p>Delivery partner: xxx</p><p>Driver details: xxx</p><p>Claim ID: xxx</p><p>Claim Type: xxx</p><p>Live tracking: <a>https://xxx/track/?id=2be04981-89fd-48b5-a40a-b2453d583d4c</a></p></div>', position: {lat:-6.166561, lng: 106.8028164} ,icon: '/Users/aniruddhanarendraraje/Desktop/maps/driver.png'},
+            {title: 'Lalamove', content: '<div><p>Order id: Mal Artha Gading</p><p>Delivery partner: xxx</p><p>Driver details: xxx</p><p>Claim ID: xxx</p><p>Claim Type: xxx</p><p>Live tracking: <a>https://xxx/track/?id=2be04981-89fd-48b5-a40a-b2453d583d4c</a></p></div>', position: {lat: -6.145576, lng: 106.892242} ,icon: '/Users/aniruddhanarendraraje/Desktop/maps/driver.png'},
+            {title: 'Borzo', content: '<div><p>Order id: Suropati Park</p><p>Delivery partner: xxx</p><p>Driver details: xxx</p><p>Claim ID: xxx</p><p>Claim Type: xxx</p><p>Live tracking: <a>https://xxx/track/?id=2be04981-89fd-48b5-a40a-b2453d583d4c</a></p></div>', position: {lat:-6.19135, lng: 106.83312} ,icon: '/Users/aniruddhanarendraraje/Desktop/maps/driver.png'},
+            {title: 'Borzo', content: '<div><p>Order id: National Monument</p><p>Delivery partner: xxx</p><p>Driver details: xxx</p><p>Claim ID: xxx</p><p>Claim Type: xxx</p><p>Live tracking: <a>https://xxx/track/?id=2be04981-89fd-48b5-a40a-b2453d583d4c</a></p></div>', position: {lat:-6.175372, lng: 106.827148} ,icon: '/Users/aniruddhanarendraraje/Desktop/maps/driver.png'},
+            {title: 'RPX', content: '<div><p>Order id: Arion Plaza</p><p>Delivery partner: xxx</p><p>Driver details: xxx</p><p>Claim ID: xxx</p><p>Claim Type: xxx</p><p>Live tracking: <a>https://xxx/track/?id=2be04981-89fd-48b5-a40a-b2453d583d4c</a></p></div>', position: {lat:-6.19287, lng: 106.88448} ,icon: '/Users/aniruddhanarendraraje/Desktop/maps/driver.png'}
+          ];
+
+          
+          var repairCenterMarkers = [];
+
+          
+          for (var i = 0; i < markers.length; i++) {
+            var marker = new google.maps.Marker({
+              position: markers[i].position,
+              map: map,
+              title: markers[i].title,
+              icon: markers[i].icon
+            });
+
+            
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+              return function() {
+                
+                var infowindow = new google.maps.InfoWindow({
+                  content: markers[i].content
+                });
+
+                
+                infowindow.open(map, marker);
+              }
+            })(marker, i));
+
+            repairCenterMarkers.push(marker);
+          }
+
+          var button = document.createElement('button');
+          button.innerHTML = 'Show Repair Centers';
+          button.style.margin = '10px';
+          button.style.padding = '5px 10px';
+          button.style.position = 'absolute';
+          button.style.top = '10px';
+          button.style.left = '10px';
+          button.style.backgroundColor = '#170f4f';
+          button.style.color = 'white';
+          button.style.height = '6%';
+
+          map.controls[google.maps.ControlPosition.TOP_LEFT].push(button);
+
+          var repairCenters = [
+            {
+              name: 'Lippo Mall Puri',
+              address: 'Jl. Cipeucang V No.18,<br>RT.11/RW.12, Rawabadak Utara, Kec. Koja,<br>Jkt Utara,Daerah Khusus Ibukota Jakarta 14220, Indonesia',
+              phone: '+6287882114411',
+              image: 'https://lh5.googleusercontent.com/p/AF1QipOAFcGlLkXoWws0gko_M6KDlWhMvgq-udsulsZ8=w296-h168-n-k-no'
+            },
+            {
+              name: 'Green Pramuka Square Mall',
+              address: 'Jl. H. Marzuki No.21,<br>RT.5/RW.3 RT.5, RT.5/RW.3,<br>Kb. Jeruk, Kec. Kb. Jeruk, Kota Jakarta Barat,<br>Daerah Khusus Ibukota Jakarta 11530, Indonesia',
+              phone: '+628179858958',
+              image: 'https://lh5.googleusercontent.com/p/AF1QipPOjjg9yuokm6uaHexd2kV0ftZ6JnhDGMbtVbnl=w296-h168-n-k-no'
+            },
+            {
+              name: 'TM Seasons City',
+              address: 'Jl. H. Marzuki No.21,<br>RT.5/RW.3 RT.5, RT.5/RW.3,<br>Kb. Jeruk, Kec. Kb. Jeruk, Kota Jakarta Barat,<br>Daerah Khusus Ibukota Jakarta 11530, Indonesia',
+              phone: '+6287885979416',
+              image: 'https://lh5.googleusercontent.com/p/AF1QipNZNTZPWn2VgX0IOLXnSLVx0WQX8Vgj9rHAwBwz=w296-h168-n-k-no'
+            }
+          ];
+
+          
+          var repairCenterList = document.createElement('div');
+          repairCenterList.style.backgroundColor = '#fff';
+          repairCenterList.style.border = '1px solid #ccc';
+          repairCenterList.style.padding = '10px';
+          repairCenterList.style.position = 'absolute';
+          repairCenterList.style.top = '51px';
+          repairCenterList.style.left = '10px';
+          repairCenterList.style.zIndex = '100';
+          repairCenterList.style.display = 'none'; // Hide the list initially
+          repairCenterList.style.maxHeight = '75%'; // Set the max height for scrollability
+          repairCenterList.style.overflowY = 'auto'; // Enable vertical scroll
+
+          
+          for (var i = 0; i < repairCenters.length; i++) {
+            var repairCenter = repairCenters[i];
+
+            
+            var repairCenterItem = document.createElement('div');
+
+            
+            var image = document.createElement('img');
+            image.src = repairCenter.image;
+            image.alt = repairCenter.name + ' Image';
+            image.style.maxWidth = '100px';
+            image.style.marginRight = '10px';
+
+            
+            var info = document.createElement('div');
+            info.innerHTML = '<strong>' + repairCenter.name + '</strong><br>' +
+              'Address: ' + repairCenter.address + '<br>' +
+              'Phone: ' + repairCenter.phone;
+
+            
+            repairCenterItem.appendChild(image);
+            repairCenterItem.appendChild(info);
+            repairCenterItem.style.marginBottom = '10px';
+
+            // Add a click event to center the map on the corresponding ARC marker
+            repairCenterItem.addEventListener('click', (function(marker) {
+              return function() {
+                // Center the map on the marker's position
+                map.setCenter(marker.getPosition());
+              }
+            })(repairCenterMarkers[i]));
+
+            
+            repairCenterList.appendChild(repairCenterItem);
+
+            var lineBreak = document.createElement('hr');
+
+            repairCenterList.appendChild(lineBreak);
+          }
+
+          // Append the restaurant list to the map container
+          document.getElementById('map').appendChild(repairCenterList);
+
+          // Add a click event to the map to hide the ARC list when clicked outside
+          map.addListener('click', function() {
+            repairCenterList.style.display = 'none';
+          });
+
+          // Add a click event to the button to toggle the visibility of the ARC list
+          button.addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevent map click event from firing
+            if (repairCenterList.style.display === 'none') {
+              repairCenterList.style.display = 'block';
+            } else {
+              repairCenterList.style.display = 'none';
+            }
+          });
+        }
+
+    </script>
+  </body>
+</html>
