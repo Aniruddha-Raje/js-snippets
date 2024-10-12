@@ -1,0 +1,16 @@
+{
+  "name": "sequlize-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aniruddha",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "pg": "^8.13.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.4"
+  }
+}
