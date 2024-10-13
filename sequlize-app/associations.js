@@ -1,20 +1,52 @@
-const User = require('./models/User');
-const Role = require('./models/Role');
-const Contact = require('./models/Contact');
-const Application = require('./models/Application');
-const IDCard = require('./models/IDCard');
+// associations.js
+const AppUser = require('./AppUser');
+const Profile = require('./Profile');
+const Post = require('./Post');
+const Role = require('./Role');
 
-// Associations
-User.belongsTo(Role, { foreignKey: 'role_id' });
-Role.hasMany(User, { foreignKey: 'role_id' });
+// Define associations
 
-User.hasMany(Contact, { foreignKey: 'user_id' });
-Contact.belongsTo(User, { foreignKey: 'user_id' });
+// AppUser associations
+AppUser.hasOne(Profile, {
+    foreignKey: 'app_user_id',
+    as: 'profile',
+});
 
-User.belongsToMany(Application, { through: 'user_application' });
-Application.belongsToMany(User, { through: 'user_application' });
+AppUser.hasMany(Post, {
+    foreignKey: 'app_user_id',
+    as: 'posts',
+});
 
-User.hasOne(IDCard, { foreignKey: 'user_id' });
-IDCard.belongsTo(User, { foreignKey: 'user_id' });
+AppUser.belongsToMany(Role, {
+    through: 'user_role',
+    foreignKey: 'user_id',
+    otherKey: 'role_id',
+    as: 'roles',
+});
 
-module.exports = { User, Role, Contact, Application, IDCard };
+// Profile associations
+Profile.belongsTo(AppUser, {
+    foreignKey: 'app_user_id',
+    as: 'appUser',
+});
+
+// Post associations
+Post.belongsTo(AppUser, {
+    foreignKey: 'app_user_id',
+    as: 'appUser',
+});
+
+// Role associations
+Role.belongsToMany(AppUser, {
+    through: 'user_role',
+    foreignKey: 'role_id',
+    otherKey: 'user_id',
+    as: 'appUsers',
+});
+
+module.exports = {
+    AppUser,
+    Profile,
+    Post,
+    Role,
+};
