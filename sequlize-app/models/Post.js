@@ -29,10 +29,4 @@ Post.init({
     timestamps: false // Disable timestamps
 });
 
-// Associations
-Post.belongsTo(AppUser, {
-    foreignKey: 'app_user_id',
-    as: 'appUser',
-});
-
 module.exports = Post;

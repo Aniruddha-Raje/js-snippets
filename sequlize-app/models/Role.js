@@ -21,12 +21,4 @@ Role.init({
     timestamps: false // Disable timestamps
 });
 
-// Associations
-Role.belongsToMany(AppUser, {
-    through: 'user_role',
-    foreignKey: 'role_id',
-    otherKey: 'user_id',
-    as: 'appUsers',
-});
-
 module.exports = Role;

@@ -28,10 +28,4 @@ Profile.init({
     timestamps: false // Disable timestamps
 });
 
-// Associations
-Profile.belongsTo(AppUser, {
-    foreignKey: 'app_user_id',
-    as: 'appUser',
-});
-
 module.exports = Profile;

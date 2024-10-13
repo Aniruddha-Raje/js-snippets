@@ -25,22 +25,4 @@ AppUser.init({
     timestamps: false // Disable timestamps
 });
 
-// Associations
-AppUser.hasOne(Profile, {
-    foreignKey: 'app_user_id',
-    as: 'profile',
-});
-
-AppUser.hasMany(Post, {
-    foreignKey: 'app_user_id',
-    as: 'posts',
-});
-
-AppUser.belongsToMany(Role, {
-    through: 'user_role',
-    foreignKey: 'user_id',
-    otherKey: 'role_id',
-    as: 'roles',
-});
-
 module.exports = AppUser;
